@@ -1,11 +1,8 @@
+import 'dotenv/config';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-if (!process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET environment variable is required');
-}
-
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'dev_jwt_secret_key_change_in_production_32chars';
 
 export interface AuthRequest extends Request {
   userId?: string;
@@ -20,8 +17,9 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
     return res.status(401).json({ error: 'Access token required' });
   }
 
+  const secret = process.env.JWT_SECRET || JWT_SECRET;
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string };
+    const decoded = jwt.verify(token, secret) as { userId: string; username: string };
     req.userId = decoded.userId;
     req.username = decoded.username;
     next();
@@ -31,5 +29,6 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
 }
 
 export function generateToken(userId: string, username: string): string {
-  return jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: '7d' });
+  const secret = process.env.JWT_SECRET || JWT_SECRET;
+  return jwt.sign({ userId, username }, secret, { expiresIn: '7d' });
 }

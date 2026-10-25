@@ -294,4 +294,62 @@ export class MongoDBStorage implements IStorage {
   }
 }
 
-export const storage = new MongoDBStorage();
+export class HybridStorage implements IStorage {
+  private memStorage = new MemStorage();
+  private mongoStorage = new MongoDBStorage();
+  private useMongo = false;
+
+  setUseMongo(enabled: boolean) {
+    this.useMongo = enabled;
+  }
+
+  isUsingMongo(): boolean {
+    return this.useMongo;
+  }
+
+  private get activeStorage(): IStorage {
+    return this.useMongo ? this.mongoStorage : this.memStorage;
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    return this.activeStorage.getUser(id);
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    return this.activeStorage.getUserByUsername(username);
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return this.activeStorage.getUserByEmail(email);
+  }
+
+  async getUserByEmailOrUsername(emailOrUsername: string): Promise<User | undefined> {
+    return this.activeStorage.getUserByEmailOrUsername(emailOrUsername);
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    return this.activeStorage.createUser(user);
+  }
+
+  async getChatSessionsByUser(userId: string): Promise<ChatSession[]> {
+    return this.activeStorage.getChatSessionsByUser(userId);
+  }
+
+  async getChatSession(sessionId: string): Promise<ChatSession | undefined> {
+    return this.activeStorage.getChatSession(sessionId);
+  }
+
+  async createChatSession(session: InsertChatSession): Promise<ChatSession> {
+    return this.activeStorage.createChatSession(session);
+  }
+
+  async updateChatSession(sessionId: string, messages: ChatMessage[], title?: string): Promise<ChatSession | undefined> {
+    return this.activeStorage.updateChatSession(sessionId, messages, title);
+  }
+
+  async deleteChatSession(sessionId: string): Promise<boolean> {
+    return this.activeStorage.deleteChatSession(sessionId);
+  }
+}
+
+export const storage = new HybridStorage();

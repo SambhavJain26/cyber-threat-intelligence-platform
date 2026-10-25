@@ -8,7 +8,7 @@ let openai: OpenAI | null = null;
 if (process.env.OPENAI_API_KEY) {
   openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 } else {
-  console.warn('OPENAI_API_KEY is not set – OpenAI client will not be initialized.');
+  console.warn('OPENAI_API_KEY is not set: OpenAI client will not be initialized.');
 }
 
 export interface ChatMessage {
@@ -319,7 +319,7 @@ Format your responses with clear structure:
       { role: "system", content: systemPrompt },
       { role: "user", content: userQuery + contextData }
     ];
-
+    if (!openai) throw new Error('OPENAI_API_KEY is not set; cannot call OpenAI API.');
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: messages,
@@ -367,7 +367,7 @@ Always provide accurate, actionable information based on the available threat in
       { role: "system", content: systemPrompt },
       ...messages
     ];
-
+    if (!openai) throw new Error('OPENAI_API_KEY is not set; cannot call OpenAI API.');
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: chatMessages,

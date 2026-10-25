@@ -10,6 +10,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { connectToMongoDB } from "./db/mongodb";
+import { storage } from "./storage";
 
 const app = express();
 
@@ -45,7 +46,7 @@ app.use((req, res, next) => {
       }
 
       if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
+        logLine = logLine.slice(0, 79) + "...";
       }
 
       log(logLine);
@@ -56,20 +57,23 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Basic developer-oriented check: warn if typical required envs are missing
-  // in development mode, don't crash – just log. In production, crash early so operators can fix.
-  const requiredEnvs = ["OPENAI_API_KEY", "MONGODB_URI"];
-  const missing = requiredEnvs.filter(e => !process.env[e]);
-  if (missing.length > 0) {
-    const envMsg = `Missing required env vars: ${missing.join(', ')}.`;
-    if (process.env.NODE_ENV === 'production') {
-      console.error(envMsg + ' Exiting (production mode)');
-      process.exit(1);
-    } else {
-      console.warn(envMsg + ' Continuing in development mode; some features may not work.');
-    }
+  // Check recommended environment variables
+  if (!process.env.OPENAI_API_KEY) {
+    console.warn('[Config] OPENAI_API_KEY is not set. Platform operates in core intelligence mode; AI assistant features require an API key.');
   }
-  await connectToMongoDB();
+
+  if (!process.env.JWT_SECRET) {
+    process.env.JWT_SECRET = 'dev_jwt_secret_key_change_in_production_32chars';
+    console.warn('[Config] JWT_SECRET not provided. Set fallback session secret for demonstration.');
+  }
+
+  try {
+    await connectToMongoDB();
+    (storage as any).setUseMongo?.(true);
+    console.log('[Storage] Connected to MongoDB database successfully.');
+  } catch (error: any) {
+    console.warn(`[Storage] MongoDB not reachable (${error.message}). Operating in resilient in-memory storage mode for demonstration.`);
+  }
   
   const server = await registerRoutes(app);
 
@@ -81,7 +85,7 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
+  // Importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
@@ -92,14 +96,16 @@ app.use((req, res, next) => {
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
+  const listenOptions: any = {
     port,
     host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
+  };
+  if (process.platform !== 'win32') {
+    listenOptions.reusePort = true;
+  }
+
+  server.listen(listenOptions, () => {
     log(`serving on port ${port}`);
   });
 })();

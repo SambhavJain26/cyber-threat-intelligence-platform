@@ -1,5 +1,5 @@
 {
-  "name": "rest-express",
+  "name": "cyber-threat-intelligence",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
@@ -98,6 +98,7 @@
     "autoprefixer": "^10.4.20",
     "esbuild": "^0.25.0",
     "postcss": "^8.4.47",
+    "puppeteer-core": "^25.16.0",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.5",
     "typescript": "5.6.3",
@@ -105,5 +106,7 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
-  }
+  },
+  "description": "Cyber Threat Intelligence (CTI) Aggregator & AI Analysis Platform",
+  "type": "module"
 }

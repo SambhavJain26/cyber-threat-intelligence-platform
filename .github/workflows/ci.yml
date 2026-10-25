@@ -1,0 +1,70 @@
+name: CI Build & Quality Verification
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: TypeScript Type Check
+        run: npm run check
+
+      - name: Production Bundle Build
+        run: npm run build
+
+      - name: Credential Hygiene Audit
+        run: |
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const checkDir = (dir) => {
+              for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                const fullPath = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                  if (entry.name !== "node_modules" && entry.name !== ".git" && entry.name !== "dist") {
+                    checkDir(fullPath);
+                  }
+                } else if (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx") || entry.name.endsWith(".json") || entry.name.endsWith(".md")) {
+                  const content = fs.readFileSync(fullPath, "utf8");
+                  if (/sk-[a-zA-Z0-9]{20,}/.test(content) && !content.includes("sk-placeholder") && !content.includes("sk-test")) {
+                    throw new Error(`Potential real OpenAI key detected in ${fullPath}`);
+                  }
+                }
+              }
+            };
+            checkDir(".");
+            console.log("[PASS] Credential hygiene audit clean: zero leaked secrets detected.");
+          '
+
+      - name: Verify Documentation Style (Banned Em Dash Check)
+        run: |
+          node -e '
+            const fs = require("fs");
+            const files = ["README.md", "CASE_STUDY.md"];
+            for (const f of files) {
+              if (fs.existsSync(f)) {
+                const content = fs.readFileSync(f, "utf8");
+                if (content.includes("\u2014") || content.includes("\u2013")) {
+                  throw new Error(`Banned em dash or en dash detected in ${f}`);
+                }
+              }
+            }
+            console.log("[PASS] Em dash style verification clean.");
+          '
