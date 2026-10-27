@@ -13,6 +13,9 @@
 * **Stack**: TypeScript 5.6, React 18, Vite 5, Tailwind CSS, shadcn/ui, Radix UI Primitives, Express 4, Node.js 20, MongoDB 7, OpenAI GPT-4o-mini, Docker Compose, Puppeteer Core, Recharts
 * **Project Type**: Full-Stack Web Application / Cybersecurity Operations & AI Automation
 
+![Executive Security Dashboard](docs/screenshots/02-executive-dashboard.png)
+*Figure 1: Executive Security Dashboard displaying real-time KPI metrics, active threat feeds, and vulnerability tracking.*
+
 ---
 
 ## Executive Summary & Impact
@@ -132,11 +135,8 @@ flowchart TD
 * **Schema Harmonization**: Every indicator is normalized into a standardized record (`id`, `date`, `type`, `value`, `source`, `threatType`, `severity`, `cvssScore`).
 * **Resilient Baseline Fallback**: If external third-party feeds fail due to API quotas or network blocks, the pipeline automatically activates verified baseline indicators, ensuring continuous operational visibility.
 
-```
-[VISUAL EMBED: Executive Security Dashboard]
-File Reference: docs/screenshots/02-executive-dashboard.png
-Caption: The Executive Security Dashboard displaying active KPI counters, recent threat streams, and 7-day velocity trends.
-```
+![Executive Security Dashboard](docs/screenshots/02-executive-dashboard.png)
+*Figure 2: The Executive Security Dashboard displaying active KPI counters, recent threat streams, and 7-day velocity trends.*
 
 ---
 
@@ -144,11 +144,8 @@ Caption: The Executive Security Dashboard displaying active KPI counters, recent
 * **CISA KEV & NVD Ingestion**: Pulls active exploited vulnerabilities directly from CISA and NIST, extracting CVSS v3.1 base metrics, attack vectors, and published dates.
 * **Deterministic Deduplication**: Uses Map-based ID deduplication to merge overlapping records between CISA and NVD, prioritizing exploited vulnerabilities with maximum severity weighting.
 
-```
-[VISUAL EMBED: Vulnerability Intelligence & CVE Reports]
-File Reference: docs/screenshots/04-cve-reports-intelligence.png
-Caption: Curated vulnerability management interface displaying CVSS severity scores, descriptions, and automated impact analysis triggers.
-```
+![Vulnerability Intelligence & CVE Reports](docs/screenshots/04-cve-reports-intelligence.png)
+*Figure 3: Curated vulnerability management interface displaying CVSS severity scores, descriptions, and automated impact analysis triggers.*
 
 ---
 
@@ -159,11 +156,8 @@ When an analyst opens the AI Threat Assistant and asks: *"What is the threat pro
 3. **Markdown Compression**: The pruned data is formatted as a compact markdown document (~1,200 tokens) rather than raw JSON (~25,000 tokens).
 4. **Targeted AI Response**: OpenAI GPT-4o-mini receives the focused prompt and outputs structured attribution, MITRE ATT&CK tactics, and mitigation steps with zero hallucination.
 
-```
-[VISUAL EMBED: Interactive AI Threat Assistant]
-File Reference: docs/screenshots/06-ai-threat-assistant.png
-Caption: AI Threat Assistant demonstrating intent extraction, contextual grounding, and session conversation memory.
-```
+![Interactive AI Threat Assistant](docs/screenshots/06-ai-threat-assistant.png)
+*Figure 4: AI Threat Assistant demonstrating intent extraction, contextual grounding, and session conversation memory.*
 
 ---
 
@@ -172,11 +166,8 @@ Caption: AI Threat Assistant demonstrating intent extraction, contextual groundi
 * **Timezone Harmonization**: Live timestamps dynamically adjust across UTC, GMT, EST, PST, and IST based on analyst preferences.
 * **CSV Data Export**: One-click streaming export allows analysts to dump filtered IOC sets directly into CSV files for ingestion into SIEM tools (Splunk, Microsoft Sentinel).
 
-```
-[VISUAL EMBED: Threat Feeds Explorer]
-File Reference: docs/screenshots/03-threat-feeds-explorer.png
-Caption: High-density Threat Feeds Explorer featuring paginated tables, severity badges, and CSV export.
-```
+![Threat Feeds Explorer](docs/screenshots/03-threat-feeds-explorer.png)
+*Figure 5: High-density Threat Feeds Explorer featuring paginated tables, severity badges, and CSV export.*
 
 ---
 
@@ -184,11 +175,8 @@ Caption: High-density Threat Feeds Explorer featuring paginated tables, severity
 * **Vector Distribution**: Real-time breakdown of threat types (Ransomware, Trojan, Phishing, Exploit Delivery) rendered with Recharts.
 * **Feed Health Monitor**: Displays live availability status, error states, and item counts for all connected intelligence sources.
 
-```
-[VISUAL EMBED: Threat Analytics Cockpit]
-File Reference: docs/screenshots/05-threat-analytics.png
-Caption: Visual analytics cockpit tracking threat distribution, active source health, and severity metrics.
-```
+![Threat Analytics Cockpit](docs/screenshots/05-threat-analytics.png)
+*Figure 6: Visual analytics cockpit tracking threat distribution, active source health, and severity metrics.*
 
 ---
 
