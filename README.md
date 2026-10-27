@@ -1,4 +1,4 @@
-# Cyber Threat Intelligence (CTI) Aggregator & AI Analysis Platform
+# Cyber Threat Intelligence & Vulnerability Triage Platform
 
 [![TypeScript](https://img.shields.io/badge/Language-TypeScript_5.6-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/Frontend-React_18_|_Vite_5-61DAFB?style=flat-square&logo=react)](https://react.dev)

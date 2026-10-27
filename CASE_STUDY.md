@@ -1,4 +1,4 @@
-# Case Study: Cyber Threat Intelligence (CTI) Aggregator & AI Analysis Platform
+# Case Study: Cyber Threat Intelligence & Vulnerability Triage Platform
 
 > *A comprehensive portfolio case study detailing the architecture, engineering decisions, and operational impact of an enterprise cyber threat intelligence aggregation and AI-assisted triage platform.*
 
@@ -6,7 +6,7 @@
 
 ## Project Hero
 
-* **Project Title**: Cyber Threat Intelligence (CTI) Aggregator & AI Analysis Platform
+* **Project Title**: Cyber Threat Intelligence & Vulnerability Triage Platform
 * **Subtitle**: An enterprise full-stack platform built with TypeScript, React 18, Node.js, and OpenAI GPT-4o-mini that normalizes multi-source threat intelligence, cuts LLM context token consumption by 85%+, and provides resilient zero-dependency execution.
 * **Role**: Lead Full-Stack Security Engineer & System Architect
 * **Timeline**: 4 Weeks (Architecture, Data Pipeline Engineering, AI Context Engine, React Frontend, and Performance Tuning)
