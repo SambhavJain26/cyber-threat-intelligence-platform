@@ -230,6 +230,6 @@ The project includes an automated GitHub Actions workflow (`.github/workflows/ci
 
 ---
 
-## License
+## Authorship & Attribution
 
-MIT License. Designed and authored for enterprise cybersecurity operations and threat intelligence research.
+Designed and authored by Sambhav Jain for enterprise cybersecurity operations and threat intelligence research.
