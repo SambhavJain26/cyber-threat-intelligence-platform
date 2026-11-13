@@ -7,7 +7,7 @@
 [![Storage](https://img.shields.io/badge/Storage-MongoDB_7_|_Hybrid_Memory-47A248?style=flat-square&logo=mongodb)](https://www.mongodb.com)
 [![AI Engine](https://img.shields.io/badge/AI_Engine-OpenAI_GPT--4o--mini-412991?style=flat-square&logo=openai)](https://openai.com)
 [![Docker](https://img.shields.io/badge/Containers-Docker_Compose-2496ED?style=flat-square&logo=docker)](https://www.docker.com)
-[![CI Build](https://img.shields.io/badge/CI_Build-Passing-brightgreen?style=flat-square)](.github/workflows/ci.yml)
+[![CI Build & Quality Verification](https://github.com/SambhavJain26/cyber-threat-intelligence-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/SambhavJain26/cyber-threat-intelligence-platform/actions/workflows/ci.yml)
 
 > **A full-stack cybersecurity operations platform that aggregates multi-source threat feeds (CISA KEV, NVD CVEs, AlienVault OTX, VirusTotal, Abuse.ch), normalizes indicators of compromise (IOCs), delivers real-time vulnerability analytics, and provides token-optimized AI threat analysis.**
 
@@ -26,7 +26,7 @@ Modern Security Operations Centers (SOCs) and incident responders face chronic a
 
 This platform unifies threat intelligence ingestion, normalization, and machine-assisted triage into a single reactive workspace:
 1. **Multi-Source OSINT Harvester**: Continuously polls CISA Known Exploited Vulnerabilities, NIST NVD CVEs, AlienVault OTX, VirusTotal, and Abuse.ch.
-2. **Context-Aware Query Filter**: Analyzes analyst intent and extracts relevant IOC entities before passing filtered data to OpenAI, reducing LLM token consumption by over 80%.
+2. **Context-Aware Query Filter**: Analyzes analyst intent and extracts relevant IOC entities before passing filtered data to OpenAI, eliminating unnecessary model context overhead.
 3. **Resilient Hybrid Storage Engine**: Automatically detects environment capabilities, using MongoDB in production and seamlessly falling back to high-performance in-memory storage for portable local demonstrations.
 4. **Interactive Security Analytics**: Provides responsive CVSS distribution charts, threat velocity timelines, live feed search, CSV data export, and session-managed AI threat investigation.
 
@@ -76,7 +76,7 @@ flowchart TD
         
         subgraph AIEngine ["Smart AI Context Pipeline"]
             ANALYZER["Query Analyzer (contextFilter.ts)\nIntent & Entity Classifier"]
-            FILTER["Token-Optimized Context Filter\nReduces Payload by 85%+"]
+            FILTER["Token-Optimized Context Filter\nCurated Intent & Entity Isolation"]
             LLM["OpenAI GPT-4o-mini Client\nStructured Vulnerability Analysis"]
         end
     end
@@ -131,7 +131,7 @@ flowchart TD
 
 ## Technical Highlights & Engineering Decisions
 
-### 1. Smart Context Filtering (85%+ LLM Token Cost Reduction)
+### 1. Smart Context Filtering & Intent Analysis
 Passing entire threat databases into an LLM context window causes catastrophic token consumption, slow response times, and model hallucinations.
 * **Intent Classification**: [`server/contextFilter.ts`](server/contextFilter.ts) inspects the analyst's natural language query using regex heuristics and named entity extraction, categorizing intent as IOC Analysis, CVE Investigation, Trend Query, or General Security.
 * **Context Pruning**: The engine extracts only indicators and CVEs directly matching the targeted IP, hash, domain, or CVE identifier.

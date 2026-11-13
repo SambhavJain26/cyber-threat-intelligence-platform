@@ -7,7 +7,7 @@
 ## Project Hero
 
 * **Project Title**: Cyber Threat Intelligence & Vulnerability Triage Platform
-* **Subtitle**: An enterprise full-stack platform built with TypeScript, React 18, Node.js, and OpenAI GPT-4o-mini that normalizes multi-source threat intelligence, cuts LLM context token consumption by 85%+, and provides resilient zero-dependency execution.
+* **Subtitle**: An enterprise full-stack platform built with TypeScript, React 18, Node.js, and OpenAI GPT-4o-mini that normalizes multi-source threat intelligence, eliminates unnecessary LLM context overhead, and provides resilient zero-dependency execution.
 * **Role**: Lead Full-Stack Security Engineer & System Architect
 * **Timeline**: 4 Weeks (Architecture, Data Pipeline Engineering, AI Context Engine, React Frontend, and Performance Tuning)
 * **Stack**: TypeScript 5.6, React 18, Vite 5, Tailwind CSS, shadcn/ui, Radix UI Primitives, Express 4, Node.js 20, MongoDB 7, OpenAI GPT-4o-mini, Docker Compose, Puppeteer Core, Recharts
@@ -26,13 +26,13 @@ This platform resolves the threat ingestion bottleneck and the AI context window
 
 ```
 +-----------------------------+   +-----------------------------+   +-----------------------------+
-|    85%+ Token Cost Cut      |   |    100% Zero-Crash Setup    |   |    Sub-Second Correlation   |
+|   Context-Aware Filtering   |   |    100% Zero-Crash Setup    |   |    Sub-Second Correlation   |
 | Smart regex entity filtering|   | Polymorphic HybridStorage   |   | Automated normalization of  |
 | drops 25k tokens down to 2k |   | guarantees seamless demos   |   | 7 disparate OSINT streams   |
 +-----------------------------+   +-----------------------------+   +-----------------------------+
 ```
 
-* **85%+ Reduction in LLM Context Token Consumption**: Implemented an automated query analysis and entity-extraction filter (`contextFilter.ts`) that isolates matching indicators before prompting OpenAI, shrinking token costs from ~25,000 tokens per query to under 2,000 tokens.
+* **Optimized LLM Context Isolation**: Implemented an automated query analysis and entity-extraction filter (`contextFilter.ts`) that isolates matching indicators before prompting OpenAI, significantly reducing prompt token size.
 * **100% Resilient Zero-Crash Execution**: Engineered a polymorphic `HybridStorage` proxy that dynamically routes to MongoDB when connected, and gracefully falls back to high-performance in-memory persistence when offline, enabling flawless local demonstrations on any machine.
 * **Sub-Second Correlation Across 7 Threat Feeds**: Automatically harmonizes disparate OSINT feeds into a unified schema with CVSS v3.1 severity scores, real-time status monitoring, and CSV export capabilities.
 * **Production-Grade SecOps UX**: Built a responsive dark-mode analyst cockpit featuring live KPI counters, interactive Recharts velocity graphs, paginated IOC tables, and persistent AI chat investigation sessions.
@@ -187,7 +187,7 @@ When an analyst opens the AI Threat Assistant and asks: *"What is the threat pro
 * **The Solution**: Built a two-stage pre-processing pipeline in `contextFilter.ts`:
   * Entity Extractor: Uses high-performance regex patterns to detect IPv4, SHA-256 hashes, domains, and CVE identifiers in the query string.
   * Query Classifier: Detects query intent and strips irrelevant data. If an analyst asks about an IP address, CVE reports are suppressed. If an analyst asks about an Apache vulnerability, file hashes are pruned.
-  * **Result**: Reduced average prompt token size by **85%+**, dropping response latency from 12+ seconds down to under 2 seconds.
+  * **Result**: Focused prompt token size strictly on relevant threat indicators, dropping response latency down to sub-two-second averages.
 
 ### Challenge 2: The Demonstrable Zero-Crash Architecture
 * **The Problem**: In typical full-stack applications, if the local database daemon (MongoDB) is not running when the app starts, `connectToMongoDB()` throws an unhandled rejection, crashing the server. This creates significant friction during technical demonstrations and code reviews.
@@ -207,7 +207,7 @@ When an analyst opens the AI Threat Assistant and asks: *"What is the threat pro
 
 ## Measurable Operational Outcomes
 
-* **85%+ Context Token Cost Reduction**: Dropped query payload size from 25,000+ tokens to ~1,500 tokens via smart intent filtering.
+* **Context Isolation**: Dropped query payload size to focused indicator subsets via smart intent filtering.
 * **100% Zero-Dependency Standalone Readiness**: Implemented self-healing hybrid storage, allowing immediate evaluation with a single command (`.\run.ps1`) without requiring external database setups.
 * **100 CVEs Triaged in Real Time**: Live integration with CISA KEV and NIST NVD providing automated impact summaries.
 * **Zero Console Errors & Strict Type Safety**: 100% passing TypeScript compilation across client, server, and shared schemas.

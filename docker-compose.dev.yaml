@@ -56,7 +56,6 @@ services:
       - ./client:/app/client
       - ./server:/app/server
       - ./shared:/app/shared
-      - ./attached_assets:/app/attached_assets
       # Exclude node_modules to prevent conflicts
       - /app/node_modules
       - /app/client/node_modules
